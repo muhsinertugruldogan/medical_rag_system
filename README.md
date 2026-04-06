@@ -11,7 +11,7 @@ This project implements a multimodal Retrieval-Augmented Generation (RAG) system
   - images/
   - chroma_db/
   - data/
-
+- Dataset link: https://www.kaggle.com/datasets/raddar/chest-xrays-indiana-university?select=indiana_reports.csv
 NOTE:
 The dataset (~14GB) is NOT included inside the Docker image.
 It must be mounted at runtime.
