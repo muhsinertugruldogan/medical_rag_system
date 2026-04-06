@@ -1,113 +1,149 @@
-Medical Multimodal RAG System
+Medical Multimodal RAG System - Docker Usage Guide
 
-This repository implements a multimodal Retrieval-Augmented Generation
-(RAG) system for medical report and chest X-ray question answering using
-the Indiana University dataset.
+This project implements a multimodal Retrieval-Augmented Generation (RAG) system for medical report and chest X-ray question answering.
 
-Repository Structure Main folders:
+--------------------------------------------------
+1. REQUIREMENTS
+--------------------------------------------------
 
-retrieval/: embedding, vector DB, reranking generation/: answer
-generation and image understanding scripts/: evaluation, preprocessing,
-and test scripts data/: manifest files and structured metadata images/:
-chest X-ray images chroma_db/: persisted vector database
+- Docker installed
+- Project directory containing:
+  - images/
+  - chroma_db/
+  - data/
 
-Main Models and Components Embedding model:
-hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224 Vector
-database: ChromaDB Reranker: ncbi/MedCPT-Cross-Encoder Generator:
-Qwen/Qwen2.5-3B-Instruct API framework: FastAPI
+NOTE:
+The dataset (~14GB) is NOT included inside the Docker image.
+It must be mounted at runtime.
 
-Docker Deployment
+--------------------------------------------------
+2. BUILD DOCKER IMAGE
+--------------------------------------------------
 
-Docker is the recommended way to run the system.
-
-Since the dataset is large (\~14GB), runtime folders are NOT included in
-the image. Instead, they are mounted at runtime:
-
-images/ chroma_db/ data/
-
-3.1 Build the Docker image
+Run the following command in the project root:
 
 docker build -t medical-rag .
 
-3.2 Run the container
+--------------------------------------------------
+3. RUN CONTAINER
+--------------------------------------------------
 
-docker run -p 8000:8000 -v ( p w d ) / i m a g e s : / a p p / i m a g e
-s − v (pwd)/chroma_db:/app/chroma_db -v \$(pwd)/data:/app/data
-medical-rag
+Run the container with volume mounting:
 
-3.3 Access the API
+docker run -p 8000:8000 \
+  -v $(pwd)/images:/app/images \
+  -v $(pwd)/chroma_db:/app/chroma_db \
+  -v $(pwd)/data:/app/data \
+  medical-rag
 
-Swagger UI: http://localhost:8000/docs
+Explanation:
+- images/      → chest X-ray images
+- chroma_db/   → vector database
+- data/        → metadata and manifest files
 
-Query endpoint: http://localhost:8000/query
+--------------------------------------------------
+4. ACCESS API
+--------------------------------------------------
 
-3.4 Example API request
+Swagger UI:
+http://localhost:8000/docs
 
-curl -X POST \"http://localhost:8000/query \" -H \"Content-Type:
-application/json\" -d \'{ \"question\": \"Is there evidence of acute
-cardiopulmonary abnormality?\", \"image_path\":
-\"images/images_normalized/1_IM-0001-4001.dcm.png\" }\'
+Query Endpoint:
+http://localhost:8000/query
 
-3.5 Example response
+--------------------------------------------------
+5. EXAMPLE REQUEST
+--------------------------------------------------
 
-{ \"answer\": \"Answer: No evidence of acute cardiopulmonary abnormality
-identified in any of the reports.\\nEvidence summary: Multiple reports
-explicitly state the absence of acute cardiopulmonary
-abnormalities.\\nConfidence: high\", \"sources\": \[ { \"uid\":
-\"3338\", \"impression\": \"No acute cardiopulmonary abnormality
-identified.\", \"from_text\": true, \"from_image\": false,
-\"text_rank\": 5, \"image_rank\": null, \"rerank_score\":
-0.9999996423721313 } \], \"latency_ms\": { \"retrieval_ms\": 30.24,
-\"generation_ms\": 613.84, \"total_ms\": 894.23 } }
+curl -X POST "http://localhost:8000/query" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "Is there evidence of acute cardiopulmonary abnormality?",
+    "image_path": "images/images_normalized/1_IM-0001-4001.dcm.png"
+  }'
 
-Usage Endpoint: POST /query
+--------------------------------------------------
+6. EXAMPLE RESPONSE
+--------------------------------------------------
 
-Text-only request
+{
+  "answer": "Answer: No evidence of acute cardiopulmonary abnormality identified in any of the reports.\nEvidence summary: Multiple reports explicitly state the absence of acute cardiopulmonary abnormalities.\nConfidence: high",
+  "sources": [
+    {
+      "uid": "3338",
+      "impression": "No acute cardiopulmonary abnormality identified.",
+      "rerank_score": 0.9999996423721313
+    }
+  ],
+  "latency_ms": {
+    "retrieval_ms": 30.24,
+    "generation_ms": 613.84,
+    "total_ms": 894.23
+  }
+}
 
-{ \"question\": \"Is there cardiomegaly?\" }
+--------------------------------------------------
+7. USAGE
+--------------------------------------------------
 
-Image + text request
+Endpoint:
+POST /query
 
-{ \"question\": \"What are the main radiographic findings in this chest
-X-ray?\", \"image_path\":
-\"images/images_normalized/1_IM-0001-4001.dcm.png\" }
+Text-only request:
+{
+  "question": "Is there cardiomegaly?"
+}
 
-Response fields answer: generated grounded answer sources: retrieved and
-reranked sources latency_ms: latency breakdown
+Image + text request:
+{
+  "question": "What are the main radiographic findings in this chest X-ray?",
+  "image_path": "images/images_normalized/1_IM-0001-4001.dcm.png"
+}
 
-Performance Evaluation The system includes an API-based evaluation
-pipeline.
+--------------------------------------------------
+8. PERFORMANCE
+--------------------------------------------------
 
-Measures:
+The system was evaluated on 100 queries.
 
-retrieval time generation time total latency
+Metrics:
+- Retrieval time
+- Generation time
+- Total latency
 
-Setup:
-
-100 mixed queries text-only + multimodal short / medium / long
-
-Output:
-
+Results saved in:
 performance_results_api.csv
 
-Latency:
+Typical latency:
+- Retrieval: ~30–50 ms
+- Reranking: ~60 ms
+- Generation: ~400–700 ms
 
-Retrieval: \~30--50 ms Reranking: \~60 ms Generation: \~400--700 ms
+--------------------------------------------------
+9. AUTOMATIC EVALUATION
+--------------------------------------------------
 
-Automatic Evaluation Metrics Computed metrics:
-
-BLEU ROUGE METEOR BERTScore
+Metrics:
+- BLEU
+- ROUGE
+- METEOR
+- BERTScore
 
 Outputs:
+- evaluation_metrics_results.csv
+- evaluation_summary.json
 
-evaluation_metrics_results.csv evaluation_summary.json
+Note:
+Lexical scores may be low due to summary-style outputs.
 
-Note: Scores may be low due to summary-style outputs vs full reports.
+--------------------------------------------------
+10. LIMITATIONS
+--------------------------------------------------
 
-Limitations Focused on radiology reports and chest X-rays Limited
-support for treatment or clinical management Avoids hallucinated medical
-recommendations
+- Focused on radiology reports and chest X-rays
+- Limited support for treatment-related questions
+- Designed to avoid hallucinated medical outputs
 
-Author
-
+--------------------------------------------------
+Author:
 Ertuğrul Doğan
