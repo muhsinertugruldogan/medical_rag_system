@@ -1,0 +1,26 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.env
+.venv/
+venv/
+nltk_data/
+
+*.log
+*.tmp
+*.swp
+
+.idea/
+.vscode/
+
+medical-rag.tar
+
+# Large runtime assets
+images/
+chroma_db/
+
+# OS files
+.DS_Store
+Thumbs.db

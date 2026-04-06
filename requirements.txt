@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+pydantic
+torch
+transformers
+sentence-transformers
+chromadb
+open-clip-torch
+pillow
+requests
+timm
+pandas
+nltk
+rouge-score
+bert-score
+accelerate

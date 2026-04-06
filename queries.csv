@@ -1,0 +1,101 @@
+query,length
+"Considering the findings, is there cardiomegaly?",short
+Are the lungs clear?,short
+Are the lungs clear?,short
+"Considering the findings, the lungs are clear?",short
+"Based on the chest X-ray, is there cardiomegaly?",medium
+"Considering both the image-derived findings and retrieved reports, summarize the radiographic impression and indicate if any acute disease is present.",long
+Is there acute disease?,short
+What is the diagnosis and how is it typically treated?,medium
+Is there acute disease?,short
+"Based on the provided chest X-ray and retrieved radiology reports, what is the main abnormality observed and is there evidence of acute cardiopulmonary disease?",long
+What abnormality is present and what are the recommended treatments?,medium
+Review the findings in the image and reports. Describe the main impression and whether there are acute abnormalities.,long
+Are there abnormal findings?,short
+"From the radiology report, is there cardiomegaly?",short
+Is pneumothorax present?,short
+Analyze the chest X-ray and the associated reports. What are the key radiographic findings and do they indicate any acute pathology?,long
+Is pneumothorax present?,short
+Is there cardiomegaly?,short
+Is pleural effusion present?,short
+"Considering the findings, there is pneumothorax?",short
+Is pneumothorax present?,short
+Describe the findings and suggest possible treatment approaches.,medium
+Is there cardiomegaly?,short
+"From the radiology report, is there cardiomegaly?",short
+Is pneumothorax present?,short
+"From the radiology report, there are acute abnormalities?",medium
+Are the lungs clear?,short
+Describe the findings and suggest possible treatment approaches.,medium
+What is the abnormality and what are the current treatment options?,medium
+Can you determine if the lungs are clear?,medium
+"Based on the provided chest X-ray and retrieved radiology reports, what is the main abnormality observed and is there evidence of acute cardiopulmonary disease?",long
+"Based on the chest X-ray, there are acute abnormalities?",medium
+Is pneumothorax present?,short
+Analyze the chest X-ray and the associated reports. What are the key radiographic findings and do they indicate any acute pathology?,long
+"Considering the findings, is there cardiomegaly?",short
+"From the radiology report, there is pneumothorax?",short
+Is there cardiomegaly?,short
+Is pneumothorax present?,short
+Review the findings in the image and reports. Describe the main impression and whether there are acute abnormalities.,long
+Is pleural effusion present?,short
+Is pneumothorax present?,short
+"Based on the chest X-ray, is there cardiomegaly?",medium
+Is there acute disease?,short
+Is there acute disease?,short
+Describe the findings and suggest possible treatment approaches.,medium
+Can you determine if there are acute abnormalities?,medium
+What is the diagnosis and how is it typically treated?,medium
+Is there cardiomegaly?,short
+"Based on the provided chest X-ray and retrieved radiology reports, what is the main abnormality observed and is there evidence of acute cardiopulmonary disease?",long
+"Based on the provided chest X-ray and retrieved radiology reports, what is the main abnormality observed and is there evidence of acute cardiopulmonary disease?",long
+Analyze the chest X-ray and the associated reports. What are the key radiographic findings and do they indicate any acute pathology?,long
+Analyze the chest X-ray and the associated reports. What are the key radiographic findings and do they indicate any acute pathology?,long
+Can you determine if there is pleural effusion?,medium
+Is there cardiomegaly?,short
+Are there abnormal findings?,short
+Review the findings in the image and reports. Describe the main impression and whether there are acute abnormalities.,long
+"Considering the findings, is there cardiomegaly?",short
+Is pneumothorax present?,short
+Are there abnormal findings?,short
+"From the radiology report, there is pleural effusion?",medium
+"Based on the provided chest X-ray and retrieved radiology reports, what is the main abnormality observed and is there evidence of acute cardiopulmonary disease?",long
+Are there abnormal findings?,short
+Are the lungs clear?,short
+Are there abnormal findings?,short
+Is there cardiomegaly?,short
+Review the findings in the image and reports. Describe the main impression and whether there are acute abnormalities.,long
+Is pneumothorax present?,short
+"Considering the findings, is there cardiomegaly?",short
+"Based on the chest X-ray, the lungs are clear?",medium
+Is pneumothorax present?,short
+Is there acute disease?,short
+"Considering both the image-derived findings and retrieved reports, summarize the radiographic impression and indicate if any acute disease is present.",long
+"Considering the findings, the lungs are clear?",short
+Can you determine if there is pneumothorax?,short
+Are the lungs clear?,short
+"Based on the chest X-ray, there is pleural effusion?",medium
+Is there cardiomegaly?,short
+"Based on the provided chest X-ray and retrieved radiology reports, what is the main abnormality observed and is there evidence of acute cardiopulmonary disease?",long
+Can you determine if there are acute abnormalities?,medium
+"Based on the provided chest X-ray and retrieved radiology reports, what is the main abnormality observed and is there evidence of acute cardiopulmonary disease?",long
+Review the findings in the image and reports. Describe the main impression and whether there are acute abnormalities.,long
+Is pneumothorax present?,short
+Can you determine if the lungs are clear?,medium
+Are the lungs clear?,short
+Is pneumothorax present?,short
+What abnormality is present and what are the recommended treatments?,medium
+Analyze the chest X-ray and the associated reports. What are the key radiographic findings and do they indicate any acute pathology?,long
+Is pleural effusion present?,short
+"From the radiology report, the lungs are clear?",medium
+"From the radiology report, there is pleural effusion?",medium
+Is there cardiomegaly?,short
+"Based on the chest X-ray, the lungs are clear?",medium
+Is pneumothorax present?,short
+"Based on the chest X-ray, there is pneumothorax?",medium
+What is the diagnosis and how is it typically treated?,medium
+"Based on the chest X-ray, there are acute abnormalities?",medium
+"From the radiology report, there are acute abnormalities?",medium
+Analyze the chest X-ray and the associated reports. What are the key radiographic findings and do they indicate any acute pathology?,long
+What is the diagnosis and how is it typically treated?,medium
+"Considering the findings, there is pleural effusion?",short

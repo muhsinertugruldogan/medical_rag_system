@@ -1,0 +1,13 @@
+{
+  "num_total": 50,
+  "num_success": 50,
+  "num_failed": 0,
+  "question": "What are the main radiographic findings in this chest X-ray?",
+  "reference_field": "impression",
+  "avg_bleu": 0.0076247869655326145,
+  "avg_rouge1_f": 0.08055314389719143,
+  "avg_rouge2_f": 0.021406237514465753,
+  "avg_rougeL_f": 0.07315796427939178,
+  "avg_meteor": 0.07306461899352487,
+  "avg_bertscore_f1": 0.8444233882427216
+}
