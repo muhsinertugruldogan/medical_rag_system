@@ -1,52 +1,172 @@
-# Medical Multimodal RAG System
+Medical Multimodal RAG System
 
-This repository implements a multimodal Retrieval-Augmented Generation (RAG) system for medical report and chest X-ray question answering using the Indiana University chest X-ray dataset.
+This repository implements a multimodal Retrieval-Augmented Generation (RAG) system for medical report and chest X-ray question answering using the Indiana University dataset.
 
-The system supports:
-- text-only queries
-- image + text queries
-- retrieval over radiology reports and chest X-ray images
-- cross-encoder reranking
-- grounded answer generation through an API
+1. Repository Structure
 
----
+Main folders:
 
-# 1. System Overview
+retrieval/: embedding, vector DB, reranking
+generation/: answer generation and image understanding
+scripts/: evaluation, preprocessing, and test scripts
+data/: manifest files and structured metadata
+images/: chest X-ray images
+chroma_db/: persisted vector database
 
-The pipeline consists of four main stages:
+2. Main Models and Components
+Embedding model: hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224
+Vector database: ChromaDB
+Reranker: ncbi/MedCPT-Cross-Encoder
+Generator: Qwen/Qwen2.5-3B-Instruct
+API framework: FastAPI
 
-## 1.1 Retrieval
-Relevant radiology reports and images are retrieved using dense embeddings and ChromaDB.
+3. Docker Deployment
 
-## 1.2 Reranking
-Retrieved candidates are reranked with a medical cross-encoder model:
-- `ncbi/MedCPT-Cross-Encoder`
+Docker is the recommended way to run the system.
 
-## 1.3 Generation
-The final answer is generated using:
-- `Qwen/Qwen2.5-3B-Instruct`
+Since the dataset is large (~14GB), runtime folders are NOT included in the image. Instead, they are mounted at runtime:
 
-The generator is grounded on retrieved radiology reports.
+images/
+chroma_db/
+data/
 
-## 1.4 Evaluation
-The repository includes:
-- performance evaluation over 100 mixed queries
-- automatic metric evaluation against report references
+3.1 Build the Docker image
 
----
+docker build -t medical-rag .
 
-# 2. Repository Structure
+3.2 Run the container
 
-```text
-medical-rag/
-├── app.py
-├── retrieval/
-├── generation/
-├── scripts/
-├── data/
-├── images/
-├── chroma_db/
-├── requirements.txt
-├── Dockerfile
-├── .dockerignore
-└── README.md
+docker run -p 8000:8000
+-v $(pwd)/images:/app/images
+-v $(pwd)/chroma_db:/app/chroma_db
+-v $(pwd)/data:/app/data
+medical-rag
+
+3.3 Access the API
+
+Swagger UI:
+http://localhost:8000/docs
+
+Query endpoint:
+http://localhost:8000/query
+
+3.4 Example API request
+
+curl -X POST "http://localhost:8000/query
+"
+-H "Content-Type: application/json"
+-d '{
+"question": "Is there evidence of acute cardiopulmonary abnormality?",
+"image_path": "images/images_normalized/1_IM-0001-4001.dcm.png"
+}'
+
+3.5 Example response
+
+{
+"answer": "Answer: No evidence of acute cardiopulmonary abnormality identified in any of the reports.\nEvidence summary: Multiple reports explicitly state the absence of acute cardiopulmonary abnormalities.\nConfidence: high",
+"sources": [
+{
+"uid": "3338",
+"impression": "No acute cardiopulmonary abnormality identified.",
+"from_text": true,
+"from_image": false,
+"text_rank": 5,
+"image_rank": null,
+"rerank_score": 0.9999996423721313
+}
+],
+"latency_ms": {
+"retrieval_ms": 30.24,
+"generation_ms": 613.84,
+"total_ms": 894.23
+}
+}
+
+4. Usage
+
+Endpoint:
+POST /query
+
+Text-only request
+
+{
+"question": "Is there cardiomegaly?"
+}
+
+Image + text request
+
+{
+"question": "What are the main radiographic findings in this chest X-ray?",
+"image_path": "images/images_normalized/1_IM-0001-4001.dcm.png"
+}
+
+Response fields
+answer: generated grounded answer
+sources: retrieved and reranked sources
+latency_ms: latency breakdown
+
+5. Performance Evaluation
+
+The system includes an API-based evaluation pipeline.
+
+Measures:
+
+retrieval time
+generation time
+total latency
+
+Setup:
+
+100 mixed queries
+text-only + multimodal
+short / medium / long
+
+Output:
+
+performance_results_api.csv
+
+Latency:
+
+Retrieval: ~30–50 ms
+Reranking: ~60 ms
+Generation: ~400–700 ms
+
+6. Automatic Evaluation Metrics
+
+Computed metrics:
+
+BLEU
+ROUGE
+METEOR
+BERTScore
+
+Outputs:
+
+evaluation_metrics_results.csv
+evaluation_summary.json
+
+Note: Scores may be low due to summary-style outputs vs full reports.
+
+7. Limitations
+Focused on radiology reports and chest X-rays
+Limited support for treatment or clinical management
+Avoids hallucinated medical recommendations
+
+8. Author
+
+Ertuğrul Doğan
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
